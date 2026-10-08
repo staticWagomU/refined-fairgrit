@@ -90,6 +90,7 @@ export function startSummaries(): () => void {
       for (const header of document.querySelectorAll('button, [role="button"]')) {
         const id = applicationId(header);
         if (!id || !header.parentElement) continue;
+        if ([...header.querySelectorAll('button, [role="button"]')].some(child => applicationId(child) === id)) continue;
         const item = application(header, id);
         const value = item && summary(item);
         if (!value) continue;

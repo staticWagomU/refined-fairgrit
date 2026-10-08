@@ -43,20 +43,20 @@ test('申請番号で追従し、DOM変更・再描画・欠落・SPA遷移で�
     assert.doesNotMatch(notes()[0].textContent, /研修費/);
 
     // Replace the card and use an ARIA button, with no Vuetify classes or component names.
-    document.querySelector('article').innerHTML = '<main><aside><div role="button">申請番号: 101</div></aside></main>';
+    document.querySelector('article').innerHTML = '<main role="button"><aside><div role="button">申請番号: 101</div></aside></main>';
     await tick();
     assert.equal(notes().length, 1);
     assert.match(notes()[0].textContent, /研修費/);
     owner.$props.renamedList = [travel];
-    document.querySelector('[role="button"]').append(' 更新');
+    document.querySelector('aside [role="button"]').append(' 更新');
     await tick();
     assert.equal(notes().length, 0);
     owner.$props.renamedList = [expense, expense];
-    document.querySelector('[role="button"]').append(' 更新');
+    document.querySelector('aside [role="button"]').append(' 更新');
     await tick();
     assert.equal(notes().length, 0); // Ambiguous identity must not render.
     owner.$props.renamedList = [expense];
-    document.querySelector('[role="button"]').append(' 更新');
+    document.querySelector('aside [role="button"]').append(' 更新');
     await tick();
     assert.equal(notes().length, 1);
     path.pathname = '/weekly';
@@ -69,7 +69,7 @@ test('申請番号で追従し、DOM変更・再描画・欠落・SPA遷移で�
     assert.equal(notes().length, 1);
     stop();
     assert.equal(notes().length, 0);
-    assert.equal(document.querySelector('[role="button"]').hasAttribute('aria-describedby'), false);
+    assert.equal(document.querySelector('aside [role="button"]').hasAttribute('aria-describedby'), false);
     await tick();
     assert.equal(notes().length, 0);
   } finally {
